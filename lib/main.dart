@@ -7,10 +7,9 @@ import 'package:workmanager/workmanager.dart';
 void callbackDispatcher() {
   Workmanager.executeTask((task, inputData) async {
     if (task == 'uniqueKey') {
-      ///do the task to send notification
-      var response =
-          await http.get('https://jsonplaceholder.typicode.com/posts/1');
-      Map<String, String> dataComingFromTheServer = json.decode(response.body);
+      ///do the task in Backend for how and when to send notification
+      var response = await http.get('https://reqres.in/api/users/2');
+      Map dataComingFromTheServer = json.decode(response.body);
 
       /// here making the notifcation pop up and be shown in status bar
       final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -25,8 +24,8 @@ void callbackDispatcher() {
           NotificationDetails(android: androidPlatformChannelSpecifics);
       await flutterLocalNotificationsPlugin.show(
           0,
-          dataComingFromTheServer['title'],
-          dataComingFromTheServer['body'],
+          dataComingFromTheServer['data']['first_name'],
+          dataComingFromTheServer['data']['email'],
           platformChannelSpecifics,
           payload: 'item x');
     }
